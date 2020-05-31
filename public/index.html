@@ -44,11 +44,19 @@
     <script src="js/jquery.blueimp-gallery.js"></script>
     <script>
       $(async () => {
-        const { data } = await axios.get('http://hidoge.cn:9072/images?_sort=createdAt&_order=desc')
+        const imgList = await axios.get('http://hidoge.cn:9072/images?_sort=createdAt&_order=desc')
+        const ids = _.map(imgList.data, (i) => {
+          return i.id
+        })
+        let filter = ''
+        _.forEach(ids, (i) => {
+          filter += `id=${i}&`
+        })
+        const { data } = await axios.post('http://hidoge.cn:9071/thumbs', { filter })
         const linksContainer = $('#links')
         _.forEach(data, (i) => {
           $('<a/>')
-              .append($('<img>').prop('src', `http://hidoge.cn:9071/image/${i.fileName}`))
+              .append($('<img>').prop('src', i.base64))
               .prop('href', `http://hidoge.cn:9071/image/${i.fileName}`)
               .prop('title', i.id)
               .attr('data-gallery', '')
