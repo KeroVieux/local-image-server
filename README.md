@@ -12,12 +12,11 @@
 2. start
 `yarn start`
 
+3. finally
+two server have started, one is image server, other one is data server.(default port is 9071 and 9072)
+
 ## demo
-open link http://localhost:9072
-
-or
-
-see the file in `./public/index.html`
+[image list demo](http://hidoge.cn:9072/)
 
 ## deploy
 
@@ -105,6 +104,21 @@ return
 
 ```json
 [{"id":"yNJ7Qa0rH","url":"http://xxx.com:9071/image/yNJ7Qa0rH.jpg"}]
+```
+
+### get thumbs
+
+```
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"filter": "id=:id&id=:id"' \
+  http://localhost:9071/thumbs
+```
+
+return  
+
+```json
+[{"id":"yNJ7Qa0rH","fileName":"yNJ7Qa0rH.jpg","base64": "base64"}]
 ```
 
 ### get image by id

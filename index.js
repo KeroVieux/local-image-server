@@ -143,6 +143,7 @@ app.post('/thumbs/', async (req, res, next) => {
         .toBuffer()
     images.push({
       id: i.id,
+      fileName: i.fileName,
       base64: `data:${format || i.ext};base64,${sharpRes.toString('base64')}`,
     })
   }))
