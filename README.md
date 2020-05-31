@@ -28,11 +28,12 @@ $ pm2 start yarn --interpreter bash --name local-image-server -- start
 
 
 ## what here provided
+
 ### upload single image from form
 
-1. the name of file input must be 'image'
+1. the name of file input must be 'image'  
 
-```http request
+```
 curl -X POST \
   -H "Content-Type: image/png" \
   --data-binary '@test.png'  \
@@ -47,7 +48,7 @@ return
 
 ### upload multiple images from form
 
-1. the name of file input must be 'images'
+1. the name of file input must be 'images'  
 
 ```http request
 curl -X POST \
@@ -100,7 +101,7 @@ curl -X GET \
   http://localhost:9072/images?id=:id&id=:id
 ```
 
-return
+return  
 
 ```json
 [{"id":"yNJ7Qa0rH","url":"http://xxx.com:9071/image/yNJ7Qa0rH.jpg"}]
@@ -114,7 +115,7 @@ curl -X GET \
   http://localhost:9072/images/:id
 ```
 
-return
+return  
 
 ```json
 {"id":"yNJ7Qa0rH","url":"http://xxx.com:9071/image/yNJ7Qa0rH.jpg"}
@@ -128,7 +129,7 @@ curl -X GET \
   http://localhost:9072/image/:id?base64=true
 ```
 
-return base64 string
+return base64 string  
 
 ### get file
 
@@ -138,9 +139,9 @@ curl -X GET \
   http://localhost:9072/image/:id
 ```
 
-return file
+return file  
 
-### get specific size base64
+### get specific size base64  
 
 ```http request
 curl -X GET \
@@ -148,7 +149,7 @@ curl -X GET \
   http://localhost:9072/sharp/:id?w=100&h=100&format=png
 ```
 
-return base64 string
+return base64 string  
 
 ## why not chevereto
 1. the only api for upload used get method, so you cannot upload some image within large size
