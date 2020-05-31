@@ -131,6 +131,23 @@ app.get('/image/:fileName', async (req, res, next) => {
   return res.sendFile(image)
 })
 
+app.post('/thumb/', async (req, res, next) => {
+  const { filter } = req.body
+  const { w, h, format} = req.query
+  const { data } = await axios.get(`http://hidoge.cn:9072/images?${filter}`)
+  console.log('data', data)
+  const images = []
+  _.forEach(data, async (i) => {
+    const image = path.join(__dirname, 'uploads', i.fileName)
+    const sharpRes = await sharp(image)
+        .resize(w ? parseInt(w, 10) : 100, h ? parseInt(h, 10) : 100, { fit: 'contain', background: {r:0,g:0,b:0,alpha:0} })
+        .toBuffer()
+    _.assign(i, { base64: sharpRes })
+    images.push(i)
+  })
+  return res.send(images)
+})
+
 app.get('/sharp/:id', async (req, res, next) => {
   const { id } = req.params
   const { w, h, format} = req.query
