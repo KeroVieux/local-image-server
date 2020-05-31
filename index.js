@@ -35,7 +35,8 @@ app.post('/upload-single', upload.single('image'), async (req, res, next) =>{
     })
     return res.json({
       id: req.file.filename.split('.')[0],
-      url: `http://localhost:9071/image/${req.file.filename}`
+      ext: req.file.filename.split('.')[1],
+      fileName: req.file.filename,
     })
   }
   return res.json(false)
@@ -55,7 +56,7 @@ app.post('/upload-multi', async (req, res, next) => {
       return res.json(_.map(req.files, (i) => {
         return {
           id: i.filename.split('.')[0],
-          url: `http://localhost:9071/image/${i.filename}`
+          fileName: `${id}.png`,
         }
       }))
     }
@@ -74,7 +75,8 @@ app.post('/upload-base64', async (req, res, next) => {
       })
       data.push({
         id,
-        url: `http://localhost:9071/image/${id}.png`,
+        ext: 'png',
+        fileName: `${id}.png`,
       })
       axios.post('http://localhost:9072/images', {
         id,
@@ -105,13 +107,13 @@ app.post('/upload-url', async (req, res, next) => {
     downloadImage(i, `./uploads/${id}.png`)
     data.push({
       id,
-      url: `http://localhost:9071/image/${id}.png`
+      ext: 'png',
+      fileName: `${id}.png`,
     })
     axios.post('http://localhost:9072/images', {
       id: id,
       fileName: `${id}.png`,
       ext: 'png',
-      url: `http://localhost:9071/image/${id}.png`,
       createdAt: moment().valueOf(),
     })
   })

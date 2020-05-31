@@ -42,7 +42,7 @@ curl -X POST \
 return
 
 ```json
-{"id":"yNJ7Qa0rH","url":"http://xxx.com:9071/image/yNJ7Qa0rH.jpg"}
+{"id":"yNJ7Qa0rH","fileName": "yNJ7Qa0rH.jpg"}
 ```
 
 your div should be look like this
@@ -69,7 +69,7 @@ curl -X POST \
 return
 
 ```json
-[{"id":"yNJ7Qa0rH","url":"http://xxx.com:9071/image/yNJ7Qa0rH.jpg"}]
+[{"id":"yNJ7Qa0rH","fileName": "yNJ7Qa0rH.jpg"}]
 ```
 
 your div should be look like this
@@ -94,7 +94,7 @@ curl -X POST \
 return
 
 ```json
-[{"id":"yNJ7Qa0rH","url":"http://xxx.com:9071/image/yNJ7Qa0rH.jpg"}]
+[{"id":"yNJ7Qa0rH","fileName": "yNJ7Qa0rH.jpg"}]
 ```
 
 ### image url array
@@ -109,7 +109,7 @@ curl -X POST \
 return
 
 ```json
-[{"id":"yNJ7Qa0rH","url":"http://xxx.com:9071/image/yNJ7Qa0rH.jpg"}]
+[{"id":"yNJ7Qa0rH","fileName": "yNJ7Qa0rH.jpg"}]
 ```
 
 ### get images objects
@@ -123,7 +123,7 @@ curl -X GET \
 return  
 
 ```json
-[{"id":"yNJ7Qa0rH","url":"http://xxx.com:9071/image/yNJ7Qa0rH.jpg"}]
+[{"id":"yNJ7Qa0rH","fileName": "yNJ7Qa0rH.jpg"}]
 ```
 
 ### get thumbs
@@ -152,7 +152,7 @@ curl -X GET \
 return  
 
 ```json
-{"id":"yNJ7Qa0rH","url":"http://xxx.com:9071/image/yNJ7Qa0rH.jpg"}
+{"id":"yNJ7Qa0rH","fileName": "yNJ7Qa0rH.jpg"}
 ```
 
 ### get base64
