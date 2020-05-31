@@ -45,6 +45,16 @@ return
 {"id":"yNJ7Qa0rH","url":"http://xxx.com:9071/image/yNJ7Qa0rH.jpg"}
 ```
 
+your div should be look like this
+
+```
+<form action="http://localhost:9071/upload-single" method="post" enctype="multipart/form-data">
+  <h2>single</h2>
+  <input type="file" name="image">
+  <input type="submit" value="submit">
+</form>
+```
+
 ### upload multiple images from form
 
 1. the name of file input must be 'images'  
@@ -60,6 +70,16 @@ return
 
 ```json
 [{"id":"yNJ7Qa0rH","url":"http://xxx.com:9071/image/yNJ7Qa0rH.jpg"}]
+```
+
+your div should be look like this
+
+```
+<form action="http://localhost:9071/upload-multi" method="post" enctype="multipart/form-data">
+  <h2>multi</h2>
+  <input type="file" name="images" multiple>
+  <input type="submit" value="submit">
+</form>
 ```
 
 ### base64 array
