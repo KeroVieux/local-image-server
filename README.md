@@ -18,6 +18,10 @@ or
 
 see the file in `./public/index.html`
 
+3. deploy
+`mkdir uploads`
+`pm2 start yarn --interpreter bash --name local-image-server -- start`
+
 ## what here provided
 ### upload single image from form
 1. the name of file input must be 'image'
