@@ -2,7 +2,7 @@
 1. a simple image hosting service used nodejs 
 2. running without mysql or mongodb, lowdb is required again (I'm a big fan of lodash)
 3. base64 or image from web URL is supported, besides the form submit
-4. resize the image to your expect and return base64
+4. resize the image to your expected and return base64
 5. all images stay in your disk
 
 ## Getting started
@@ -13,7 +13,7 @@
 `yarn start`
 
 3. finally
-two server have started, one is image server, other one is data server.(default port is 9071 and 9072)
+two server have started, one is image server, the other one is data server.(default port is 9071 and 9072)
 
 ## demo
 [image list demo](http://hidoge.cn:9072/)
