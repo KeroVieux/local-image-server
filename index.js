@@ -30,7 +30,7 @@ app.use(cors())
 app.use(bodyParser.json())
 app.post('/upload-single', upload.single('image'), async (req, res, next) =>{
   if (req.file) {
-    axios.post('http://localhost:9072/images', {
+    axios.post('http://hidoge.cn:9072/images', {
       id: req.file.filename.split('.')[0],
       ext: req.file.filename.split('.')[1],
       fileName: req.file.filename,
@@ -38,7 +38,7 @@ app.post('/upload-single', upload.single('image'), async (req, res, next) =>{
     })
     return res.json({
       id: req.file.filename.split('.')[0],
-      url: `http://localhost:9071/image/${req.file.filename}`
+      url: `http://hidoge.cn:9071/image/${req.file.filename}`
     })
   }
   return res.json(false)
@@ -48,7 +48,7 @@ app.post('/upload-multi', async (req, res, next) => {
   uploadMulti(req,res,function(err) {
     if (req.files && !err) {
       _.forEach(req.files, (i) => {
-        axios.post('http://localhost:9072/images', {
+        axios.post('http://hidoge.cn:9072/images', {
           id: i.filename.split('.')[0],
           ext: i.filename.split('.')[1],
           fileName: i.filename,
@@ -58,7 +58,7 @@ app.post('/upload-multi', async (req, res, next) => {
       return res.json(_.map(req.files, (i) => {
         return {
           id: i.filename.split('.')[0],
-          url: `http://localhost:9071/image/${i.filename}`
+          url: `http://hidoge.cn:9071/image/${i.filename}`
         }
       }))
     }
@@ -77,9 +77,9 @@ app.post('/upload-base64', async (req, res, next) => {
       })
       data.push({
         id,
-        url: `http://localhost:9071/image/${id}.png`,
+        url: `http://hidoge.cn:9071/image/${id}.png`,
       })
-      axios.post('http://localhost:9072/images', {
+      axios.post('http://hidoge.cn:9072/images', {
         id,
         ext: 'png',
         fileName: `${id}.png`,
@@ -108,13 +108,13 @@ app.post('/upload-url', async (req, res, next) => {
     downloadImage(i, `./uploads/${id}.png`)
     data.push({
       id,
-      url: `http://localhost:9071/image/${id}.png`
+      url: `http://hidoge.cn:9071/image/${id}.png`
     })
-    axios.post('http://localhost:9072/images', {
+    axios.post('http://hidoge.cn:9072/images', {
       id: id,
       fileName: `${id}.png`,
       ext: 'png',
-      url: `http://localhost:9071/image/${id}.png`,
+      url: `http://hidoge.cn:9071/image/${id}.png`,
       createdAt: moment().valueOf(),
     })
   })
