@@ -50,7 +50,7 @@ return
 
 1. the name of file input must be 'images'  
 
-```http request
+```
 curl -X POST \
   -H "Content-Type: image/png" \
   --data-binary '@test.png'  \
@@ -65,7 +65,7 @@ return
 
 ### base64 array
 
-```http request
+```
 curl -X POST \
   -H "Content-Type: application/json" \
   -d '{"images": ["base64 str","base64 str"]}' \
@@ -80,7 +80,7 @@ return
 
 ### image url array
 
-```http request
+```
 curl -X POST \
   -H "Content-Type: application/json" \
   -d '{"images": ["web url","web url"]}' \
@@ -95,7 +95,7 @@ return
 
 ### get images objects
 
-```http request
+```
 curl -X GET \
   -H "nothing: {{nothing}}" \
   http://localhost:9072/images?id=:id&id=:id
@@ -109,7 +109,7 @@ return
 
 ### get image by id
 
-```http request
+```
 curl -X GET \
   -H "nothing: {{nothing}}" \
   http://localhost:9072/images/:id
@@ -123,7 +123,7 @@ return
 
 ### get base64
 
-```http request
+```
 curl -X GET \
   -H "Content-Type: application/json" \
   http://localhost:9072/image/:id?base64=true
@@ -133,7 +133,7 @@ return base64 string
 
 ### get file
 
-```http request
+```
 curl -X GET \
   -H "Content-Type: application/json" \
   http://localhost:9072/image/:id
@@ -143,7 +143,7 @@ return file
 
 ### get specific size base64  
 
-```http request
+```
 curl -X GET \
   -H "Content-Type: application/json" \
   http://localhost:9072/sharp/:id?w=100&h=100&format=png
