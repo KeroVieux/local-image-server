@@ -7,10 +7,7 @@ const fs = require('fs');
 const axios = require('axios')
 const shortid = require('shortid')
 const moment = require('moment')
-const low = require('lowdb')
-const FileSync = require('lowdb/adapters/FileSync')
-const adapter = new FileSync('./db.json')
-const db = low(adapter)
+const sharp = require('sharp')
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -121,19 +118,30 @@ app.post('/upload-url', async (req, res, next) => {
   res.json(data)
 })
 
-app.get('/image/:fileName', function (req, res, next) {
+app.get('/image/:fileName', async (req, res, next) => {
   const base64 = req.query.base64
-  const fileName = req.params['fileName']
+  const { fileName } = req.params
   const image = path.join(__dirname, 'uploads', fileName)
   if (base64) {
-    const data = db.get('images').find({ fileName }).value()
     const bitmap = fs.readFileSync(image);
     const base64str = Buffer.from(bitmap, 'binary').toString('base64')
 
-    return res.send(`data:${data.ext};base64,${base64str}`)
+    return res.send(`data:${fileName.split('.')[1]};base64,${base64str}`)
   }
   return res.sendFile(image)
 })
+
+app.get('/sharp/:id', async (req, res, next) => {
+  const { id } = req.params
+  const { w, h, format} = req.query
+  const { data } = await axios.get(`http://localhost:9072/images/${id}`)
+  const image = path.join(__dirname, 'uploads', data.fileName)
+  const sharpRes = await sharp(image)
+      .resize(w ? parseInt(w, 10) : null, h ? parseInt(h, 10) : null, { fit: 'contain', background: {r:0,g:0,b:0,alpha:0} })
+      .toBuffer()
+  return res.send(`data:${format || data.ext};base64,${sharpRes.toString('base64')}`)
+})
+
 
 app.listen(9071, () => {
   console.log('local image server started on 9071')
