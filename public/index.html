@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <title>Title</title>
 </head>
-<body>
+<body style="background: #ccc">
 <img src="" alt="" id="img">
+<button id="sharp">sharp</button>
+<button id="base64Get">get img as base64</button>
 <button id="base64">base64</button>
 <button id="url">upload url</button>
 <form action="http://localhost:9071/upload-multi" method="post" enctype="multipart/form-data">
@@ -23,10 +25,16 @@
 <script src="http://hidoge.cn:8080/cdn/js/axios.min.js"></script>
 <script>
   $(async () => {
-    const getBase64 = await axios.get('http://localhost:9071/image/yx9LkhNcj.png?base64=1')
-    $('#img').attr('src', getBase64.data)
+    $('#sharp').click(async () => {
+      const { data } = await axios.get('http://localhost:9071/sharp/NQAomd71n?w=100&h=200&format=jpg')
+      $('#img').attr('src', data)
+    })
+    $('#base64Get').click(async () => {
+      const { data } = await axios.get('http://localhost:9071/image/NQAomd71n.png?base64=1')
+      $('#img').attr('src', data)
+    })
     $('#url').click(async () => {
-      const { data } = await axios.post('http://localhost:9071/upload-url', { images: ['http://dogeapp.cn:9070/images/2020/05/26/535ea06bbe514c2367f93c0e4c47c651.jpg']})
+      const { data } = await axios.post('http://localhost:9071/upload-url', { images: ['http://hidoge.cn:9071/image/qREq8c4MGe.png']})
       console.log('res', data)
     })
     $('#base64').click(async () => {
