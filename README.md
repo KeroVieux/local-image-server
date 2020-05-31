@@ -17,6 +17,7 @@ two server have started, one is image server, the other one is data server.(defa
 
 ## demo
 [image list demo](http://hidoge.cn:9072/)
+[image uploader demo](http://hidoge.cn:9072/uploader)
 
 ## deploy
 

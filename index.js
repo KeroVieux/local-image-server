@@ -27,7 +27,7 @@ app.use(cors())
 app.use(bodyParser.json())
 app.post('/upload-single', upload.single('image'), async (req, res, next) =>{
   if (req.file) {
-    axios.post('http://localhost:9072/images', {
+    axios.post('http://hidoge.cn:9072/images', {
       id: req.file.filename.split('.')[0],
       ext: req.file.filename.split('.')[1],
       fileName: req.file.filename,
@@ -46,7 +46,7 @@ app.post('/upload-multi', async (req, res, next) => {
   uploadMulti(req,res,function(err) {
     if (req.files && !err) {
       _.forEach(req.files, (i) => {
-        axios.post('http://localhost:9072/images', {
+        axios.post('http://hidoge.cn:9072/images', {
           id: i.filename.split('.')[0],
           ext: i.filename.split('.')[1],
           fileName: i.filename,
@@ -78,7 +78,7 @@ app.post('/upload-base64', async (req, res, next) => {
         ext: 'png',
         fileName: `${id}.png`,
       })
-      axios.post('http://localhost:9072/images', {
+      axios.post('http://hidoge.cn:9072/images', {
         id,
         ext: 'png',
         fileName: `${id}.png`,
@@ -110,7 +110,7 @@ app.post('/upload-url', async (req, res, next) => {
       ext: 'png',
       fileName: `${id}.png`,
     })
-    axios.post('http://localhost:9072/images', {
+    axios.post('http://hidoge.cn:9072/images', {
       id: id,
       fileName: `${id}.png`,
       ext: 'png',
@@ -136,7 +136,7 @@ app.get('/image/:fileName', async (req, res, next) => {
 app.post('/thumbs/', async (req, res, next) => {
   const { filter } = req.body
   const { w, h, format} = req.query
-  const { data } = await axios.get(`http://localhost:9072/images?${filter}`)
+  const { data } = await axios.get(`http://hidoge.cn:9072/images?${filter}`)
   const images = []
   await Promise.all(data.map(async (i) => {
     const image = path.join(__dirname, 'uploads', i.fileName)
@@ -155,7 +155,7 @@ app.post('/thumbs/', async (req, res, next) => {
 app.get('/sharp/:id', async (req, res, next) => {
   const { id } = req.params
   const { w, h, format} = req.query
-  const { data } = await axios.get(`http://localhost:9072/images/${id}`)
+  const { data } = await axios.get(`http://hidoge.cn:9072/images/${id}`)
   const image = path.join(__dirname, 'uploads', data.fileName)
   const sharpRes = await sharp(image)
       .resize(w ? parseInt(w, 10) : null, h ? parseInt(h, 10) : null, { fit: 'contain', background: {r:0,g:0,b:0,alpha:0} })
