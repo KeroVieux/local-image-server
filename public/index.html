@@ -39,8 +39,7 @@
     <script src="js/jquery.blueimp-gallery.js"></script>
     <script>
       $(async () => {
-        console.log('1')
-        const { data } = await axios.get('http://hidoge.cn:9072/images')
+        const { data } = await axios.get('http://hidoge.cn:9072/images?_sort=createdAt&_order=desc')
         const linksContainer = $('#links')
         _.forEach(data, (i) => {
           $('<a/>')
