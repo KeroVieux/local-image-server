@@ -29,6 +29,11 @@
       <a class="play-pause"></a>
       <ol class="indicator"></ol>
     </div>
+    <div id="testArea" style="position: fixed;bottom: 5px;left: 5px;">
+      <img src="" alt="" id="img">
+      <button id="sharp">sharp</button>
+      <button id="base64Get">get img as base64</button>
+    </div>
     <script src="js/vendor/jquery.min.js"></script>
     <script src="js/vendor/lodash.min.js"></script>
     <script src="js/vendor/axios.min.js"></script>
@@ -48,6 +53,14 @@
               .prop('title', i.id)
               .attr('data-gallery', '')
               .appendTo(linksContainer)
+        })
+        $('#sharp').click(async () => {
+          const { data } = await axios.get('http://hidoge.cn:9071/sharp/qREq8c4MGe?w=100&h=200&format=jpg')
+          $('#img').attr('src', data)
+        })
+        $('#base64Get').click(async () => {
+          const { data } = await axios.get('http://hidoge.cn:9071/image/qREq8c4MGe.png?base64=1')
+          $('#img').attr('src', data)
         })
       })
     </script>
