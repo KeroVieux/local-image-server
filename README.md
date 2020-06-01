@@ -186,6 +186,27 @@ curl -X GET \
 
 return base64 string  
 
+### get specific size base64  
+
+```
+curl -X GET \
+  -H "Content-Type: application/json" \
+  http://localhost:9072/sharp/:id?w=100&h=100&format=png
+```
+
+return base64 string  
+
+
+### scan your dir and add images which are not exist in database  
+
+```
+curl -X GET \
+  -H "Content-Type: application/json" \
+  http://localhost:9072/scan-disk
+```
+
+return an array that images inserted  
+
 ## why not chevereto
 1. the only api for upload used get method, so you cannot upload some image within large size
 2. cannot get image with the specific size and format

@@ -160,7 +160,7 @@ app.get('/sharp/:id', async (req, res, next) => {
   return res.send(`data:${format || data.ext};base64,${sharpRes.toString('base64')}`)
 })
 
-app.get('/files-insert', async (req, res, next) => {
+app.get('/scan-disk', async (req, res, next) => {
   const fsList = fs.readdirSync('./uploads')
   const { data } = await axios.get('http://127.0.0.1:9072/images/')
   const existIds = _.map(data, (i) => {
