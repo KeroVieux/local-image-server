@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "rm": "rimraf doc",
+    "rm": "rimraf public/doc/",
     "doc": "apidoc -c ./apidoc.json -e node_modules/ -i ./ -o public/doc/",
     "deploy": "node deploy.js d local-image-server",
     "start": "node index.js & node server.js",
