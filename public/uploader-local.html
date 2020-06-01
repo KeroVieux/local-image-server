@@ -26,7 +26,7 @@
     // const getBase64 = await axios.get('http://localhost:9071/image/yx9LkhNcj.png?base64=1')
     // $('#img').attr('src', getBase64.data)
     $('#url').click(async () => {
-      const { data } = await axios.post('http://localhost:9071/upload-url', { images: ['http://hidoge.cn:9070/images/2020/05/26/535ea06bbe514c2367f93c0e4c47c651.jpg']})
+      const { data } = await axios.post('http://localhost:9071/upload-url1', { images: ['http://hidoge.cn:9071/image/O19q77bq5.png']})
       console.log('res', data)
     })
     $('#base64').click(async () => {

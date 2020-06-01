@@ -29,6 +29,8 @@ $ pm2 start yarn --interpreter bash --name local-image-server -- start
 
 ## what here provided
 
+all api you can see, [api list](http://hidoge.cn:9072/doc)
+
 ### upload single image from form
 
 1. the name of file input must be 'image'  
@@ -215,3 +217,6 @@ return an array that images inserted
 ## todo
 1. search images in a disk and generate the specific info in the database
 2. build an app for users like chevereto, it should have albums /pagination / tags / full-text search /multiple users
+
+
+apidoc -e node_modules/ -e doc/ -c ./apidoc.json -i ./ -o doc/
