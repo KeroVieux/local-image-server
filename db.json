@@ -1,6 +1,7 @@
 {
   "images": [
     {
+<<<<<<< HEAD
       "id": "d-oJHAW5Q",
       "ext": "png",
       "fileName": "d-oJHAW5Q.png",
@@ -65,6 +66,13 @@
       "ext": "png",
       "fileName": "deYPKNDMJg.png",
       "createdAt": 1590921105358
+=======
+      "id": "NQAomd71n",
+      "fileName": "NQAomd71n.png",
+      "ext": "png",
+      "url": "http://localhost:9071/image/NQAomd71n.png",
+      "createdAt": 1590923082787
+>>>>>>> a58dd1f07b91504fe6fbf63965de5089d502e316
     }
   ]
 }

@@ -2,7 +2,7 @@
 1. a simple image hosting service used nodejs 
 2. running without mysql or mongodb, lowdb is required again (I'm a big fan of lodash)
 3. base64 or image from web URL is supported, besides the form submit
-4. resize the image to your expect and return base64
+4. resize the image to your expected and return base64
 5. all images stay in your disk
 
 ## Getting started
@@ -12,12 +12,12 @@
 2. start
 `yarn start`
 
+3. finally
+two server have started, one is image server, the other one is data server.(default port is 9071 and 9072)
+
 ## demo
-open link http://localhost:9072
-
-or
-
-see the file in `./public/index.html`
+[image list demo](http://hidoge.cn:9072/)
+[image uploader demo](http://hidoge.cn:9072/uploader)
 
 ## deploy
 
@@ -43,7 +43,17 @@ curl -X POST \
 return
 
 ```json
-{"id":"yNJ7Qa0rH","url":"http://xxx.com:9071/image/yNJ7Qa0rH.jpg"}
+{"id":"yNJ7Qa0rH","fileName": "yNJ7Qa0rH.jpg"}
+```
+
+your div should be look like this
+
+```
+<form action="http://localhost:9071/upload-single" method="post" enctype="multipart/form-data">
+  <h2>single</h2>
+  <input type="file" name="image">
+  <input type="submit" value="submit">
+</form>
 ```
 
 ### upload multiple images from form
@@ -60,7 +70,17 @@ curl -X POST \
 return
 
 ```json
-[{"id":"yNJ7Qa0rH","url":"http://xxx.com:9071/image/yNJ7Qa0rH.jpg"}]
+[{"id":"yNJ7Qa0rH","fileName": "yNJ7Qa0rH.jpg"}]
+```
+
+your div should be look like this
+
+```
+<form action="http://localhost:9071/upload-multi" method="post" enctype="multipart/form-data">
+  <h2>multi</h2>
+  <input type="file" name="images" multiple>
+  <input type="submit" value="submit">
+</form>
 ```
 
 ### base64 array
@@ -75,7 +95,7 @@ curl -X POST \
 return
 
 ```json
-[{"id":"yNJ7Qa0rH","url":"http://xxx.com:9071/image/yNJ7Qa0rH.jpg"}]
+[{"id":"yNJ7Qa0rH","fileName": "yNJ7Qa0rH.jpg"}]
 ```
 
 ### image url array
@@ -90,7 +110,7 @@ curl -X POST \
 return
 
 ```json
-[{"id":"yNJ7Qa0rH","url":"http://xxx.com:9071/image/yNJ7Qa0rH.jpg"}]
+[{"id":"yNJ7Qa0rH","fileName": "yNJ7Qa0rH.jpg"}]
 ```
 
 ### get images objects
@@ -104,7 +124,22 @@ curl -X GET \
 return  
 
 ```json
-[{"id":"yNJ7Qa0rH","url":"http://xxx.com:9071/image/yNJ7Qa0rH.jpg"}]
+[{"id":"yNJ7Qa0rH","fileName": "yNJ7Qa0rH.jpg"}]
+```
+
+### get thumbs
+
+```
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"filter": "id=:id&id=:id"' \
+  http://localhost:9071/thumbs
+```
+
+return  
+
+```json
+[{"id":"yNJ7Qa0rH","fileName":"yNJ7Qa0rH.jpg","base64": "base64"}]
 ```
 
 ### get image by id
@@ -118,7 +153,7 @@ curl -X GET \
 return  
 
 ```json
-{"id":"yNJ7Qa0rH","url":"http://xxx.com:9071/image/yNJ7Qa0rH.jpg"}
+{"id":"yNJ7Qa0rH","fileName": "yNJ7Qa0rH.jpg"}
 ```
 
 ### get base64
