@@ -70,9 +70,7 @@ app.post('/upload-base64', async (req, res, next) => {
     _.forEach(req.body.images, (i) =>{
       const str = i.split(';base64,').pop()
       const id = `${shortid.generate()}`
-      fs.writeFile(`./uploads/${id}.png`, str, 'base64', function(err) {
-        console.log(err);
-      })
+      fs.writeFile(`./uploads/${id}.png`, str, 'base64')
       data.push({
         id,
         ext: 'png',
@@ -100,7 +98,6 @@ const downloadImage = async (url, filePath) => {
 
 app.post('/upload-url', async (req, res, next) => {
   const { images } = req.body
-  console.log('images', images)
   const data = []
   _.forEach(images, (i) => {
     const id = shortid.generate()
@@ -163,6 +160,51 @@ app.get('/sharp/:id', async (req, res, next) => {
   return res.send(`data:${format || data.ext};base64,${sharpRes.toString('base64')}`)
 })
 
+app.get('/files-insert', async (req, res, next) => {
+  const fsList = fs.readdirSync('./uploads')
+  const { data } = await axios.get('http://127.0.0.1:9072/images/')
+  const existIds = _.map(data, (i) => {
+    return i.id
+  })
+  let needInsert = []
+  const needAlter = []
+  _.forEach(fsList, (i) => {
+    const nameList = i.split('.')
+    if (!_.includes(existIds, nameList[0])) {
+      if (nameList.length !== 2) {
+        needAlter.push(i)
+      } else if (shortid.isValid(nameList[0])) {
+        needInsert.push({
+          id: nameList[0],
+          ext: nameList[1],
+          fileName: i,
+          createdAt: moment().valueOf(),
+        })
+      } else {
+        needAlter.push(i)
+      }
+    }
+  })
+  await Promise.all(needAlter.map(async (i) => {
+    const image = path.join(__dirname, 'uploads', i)
+    const id = shortid.generate()
+    const nameList = i.split('.')
+    const ext = nameList[nameList.length - 1],
+        fileName = `${id}.${ext}`
+    await sharp(image).toFile(`./uploads/${fileName}`)
+    fs.unlinkSync(`./uploads/${i}`)
+    needInsert.push({
+      id,
+      ext,
+      fileName,
+      createdAt: moment().valueOf(),
+    })
+  }))
+  _.forEach(needInsert, async (i) => {
+    await axios.post('http://127.0.0.1:9072/images/', i)
+  })
+  res.send(needInsert)
+})
 app.listen(9071, () => {
   console.log('local image server started on 9071')
 })
