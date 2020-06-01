@@ -153,7 +153,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/sharp/:id",
+    "url": "/resize/:id",
     "title": "获取处理尺寸后的图片",
     "group": "图片处理",
     "name": "获取处理尺寸后的图片",
@@ -187,7 +187,7 @@ define({ "api": [
     "examples": [
       {
         "title": "curl 请求",
-        "content": "curl -X GET xx.com/sharp/123",
+        "content": "curl -X GET xx.com/resize/123",
         "type": "curl"
       }
     ],
@@ -221,7 +221,7 @@ define({ "api": [
     "groupTitle": "图片处理",
     "sampleRequest": [
       {
-        "url": "http://localhost:9071/sharp/:id"
+        "url": "http://localhost:9071/resize/:id"
       }
     ]
   },

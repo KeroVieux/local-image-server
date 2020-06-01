@@ -183,17 +183,7 @@ return file
 ```
 curl -X GET \
   -H "Content-Type: application/json" \
-  http://localhost:9072/sharp/:id?w=100&h=100&format=png
-```
-
-return base64 string  
-
-### get specific size base64  
-
-```
-curl -X GET \
-  -H "Content-Type: application/json" \
-  http://localhost:9072/sharp/:id?w=100&h=100&format=png
+  http://localhost:9072/resize/:id?w=100&h=100&format=png
 ```
 
 return base64 string  

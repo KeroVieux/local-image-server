@@ -66,20 +66,18 @@ app.post('/upload-single', upload.single('image'), async (req, res, next) =>{
 app.post('/upload-multi', async (req, res, next) => {
   uploadMulti(req,res,function(err) {
     if (req.files && !err) {
-      _.forEach(req.files, (i) => {
-        axios.post('http://127.0.0.1:9072/images', {
+      const inserted = []
+      for (const i of req.files) {
+        const playload = {
           id: i.filename.split('.')[0],
           ext: i.filename.split('.')[1],
           fileName: i.filename,
           createdAt: moment().valueOf(),
-        })
-      })
-      return res.send(_.map(req.files, (i) => {
-        return {
-          id: i.filename.split('.')[0],
-          fileName: `${id}.png`,
         }
-      }))
+        axios.post('http://127.0.0.1:9072/images', playload)
+        inserted.push(playload)
+      }
+      return res.send(inserted)
     }
     return res.send(false)
   });
@@ -168,13 +166,14 @@ app.get('/image/:fileName', async (req, res, next) => {
   const base64 = req.query.base64
   const { fileName } = req.params
   const image = path.join(__dirname, 'uploads', fileName)
-  if (base64) {
-    const bitmap = fs.readFileSync(image);
-    const base64str = Buffer.from(bitmap, 'binary').toString('base64')
-
-    return res.send(`data:${fileName.split('.')[1]};base64,${base64str}`)
+  if (image) {
+    if (base64) {
+      const sharpRes = await sharp(image).toBuffer()
+      return res.send(`data:${fileName.split('.')[1]};base64,${sharpRes.toString('base64')}`)
+    }
+    return res.sendFile(image)
   }
-  return res.sendFile(image)
+  return res.send(false)
 })
 
 /**
@@ -198,39 +197,44 @@ app.post('/thumbs/', async (req, res, next) => {
   const images = []
   for (const i of data) {
     const image = path.join(__dirname, 'uploads', i.fileName)
-    const sharpRes = await sharp(image)
-        .resize(w ? parseInt(w, 10) : 100, h ? parseInt(h, 10) : 100, { fit: 'contain', background: {r:0,g:0,b:0,alpha:0} })
-        .toBuffer()
-    images.push({
-      id: i.id,
-      fileName: i.fileName,
-      base64: `data:${format || i.ext};base64,${sharpRes.toString('base64')}`,
-    })
+    if (image) {
+      const sharpRes = await sharp(image)
+          .resize(w ? parseInt(w, 10) : 100, h ? parseInt(h, 10) : 100, { fit: 'contain', background: {r:0,g:0,b:0,alpha:0} })
+          .toBuffer()
+      images.push({
+        id: i.id,
+        fileName: i.fileName,
+        base64: `data:${format || i.ext};base64,${sharpRes.toString('base64')}`,
+      })
+    }
   }
   return res.send(images)
 })
 
 /**
- * @api {get} /sharp/:id 获取处理尺寸后的图片
+ * @api {get} /resize/:id 获取处理尺寸后的图片
  * @apiGroup 图片处理
  * @apiName 获取处理尺寸后的图片
  * @apiParam {Number} _w 缩略图宽度，默认原尺寸
  * @apiParam {Number} _h 缩略图高度，默认原尺寸
  * @apiParam {String} _format 缩略图高度，默认png
  * @apiExample {curl} curl 请求
- * curl -X GET xx.com/sharp/123
+ * curl -X GET xx.com/resize/123
  * @apiError (500 Internal Server Error) InternalServerError The server encountered an internal error.
  * @apiSuccess { String } data base64
  */
-app.get('/sharp/:id', async (req, res, next) => {
+app.get('/resize/:id', async (req, res, next) => {
   const { id } = req.params
   const { w, h, format} = req.query
   const { data } = await axios.get(`http://127.0.0.1:9072/images/${id}`)
   const image = path.join(__dirname, 'uploads', data.fileName)
-  const sharpRes = await sharp(image)
-      .resize(w ? parseInt(w, 10) : null, h ? parseInt(h, 10) : null, { fit: 'contain', background: {r:0,g:0,b:0,alpha:0} })
-      .toBuffer()
-  return res.send(`data:${format || data.ext};base64,${sharpRes.toString('base64')}`)
+  if (image) {
+    const sharpRes = await sharp(image)
+        .resize(w ? parseInt(w, 10) : null, h ? parseInt(h, 10) : null, { fit: 'contain', background: {r:0,g:0,b:0,alpha:0} })
+        .toBuffer()
+    return res.send(`data:${format || data.ext};base64,${sharpRes.toString('base64')}`)
+  }
+  return res.send(false)
 })
 
 /**
