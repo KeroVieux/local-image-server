@@ -119,14 +119,6 @@ app.post('/upload-base64', async (req, res, next) => {
   return res.json(false)
 })
 
-const downloadImage = async (url, filePath) => {
-  const req = await axios({
-    url,
-    responseType: 'stream',
-  })
-  await req.data.pipe(fs.createWriteStream(filePath))
-}
-
 /**
  * @api {post} /upload-url 通过url上传图片
  * @apiGroup 图片
@@ -139,31 +131,11 @@ const downloadImage = async (url, filePath) => {
  * @apiError (500 Internal Server Error) InternalServerError The server encountered an internal error.
  * @apiSuccess { Array } data 上传成功的图片
  */
-app.post('/upload-url', async (req, res, next) => {
-  const { images } = req.body
-  const data = []
-  _.forEach(images, (i) => {
-    const id = shortid.generate()
-    downloadImage(i, `./uploads/${id}.png`)
-    data.push({
-      id,
-      ext: 'png',
-      fileName: `${id}.png`,
-    })
-    axios.post('http://127.0.0.1:9072/images', {
-      id: id,
-      fileName: `${id}.png`,
-      ext: 'png',
-      createdAt: moment().valueOf(),
-    })
-  })
-  res.json(data)
-})
 
 app.post('/upload-url', async (req, res, next) => {
   const { images } = req.body
   const inserted = []
-  await Promise.all(images.map(async (i) => {
+  for (const i of images) {
     const id = shortid.generate()
     const { data } = await axios({ url: i, responseType: 'arraybuffer'} )
     await sharp(data).toFile(`./uploads/${id}.png`)
@@ -173,13 +145,12 @@ app.post('/upload-url', async (req, res, next) => {
       fileName: `${id}.png`,
     })
     await axios.post('http://127.0.0.1:9072/images', {
-      id: id,
+      id,
       fileName: `${id}.png`,
       ext: 'png',
       createdAt: moment().valueOf(),
     })
-  }))
-
+  }
   res.json(inserted)
 })
 
@@ -225,7 +196,7 @@ app.post('/thumbs/', async (req, res, next) => {
   const { w, h, format} = req.query
   const { data } = await axios.get(`http://127.0.0.1:9072/images?${filter}`)
   const images = []
-  await Promise.all(data.map(async (i) => {
+  for (const i of data) {
     const image = path.join(__dirname, 'uploads', i.fileName)
     const sharpRes = await sharp(image)
         .resize(w ? parseInt(w, 10) : 100, h ? parseInt(h, 10) : 100, { fit: 'contain', background: {r:0,g:0,b:0,alpha:0} })
@@ -235,7 +206,7 @@ app.post('/thumbs/', async (req, res, next) => {
       fileName: i.fileName,
       base64: `data:${format || i.ext};base64,${sharpRes.toString('base64')}`,
     })
-  }))
+  }
   return res.send(images)
 })
 
@@ -297,7 +268,7 @@ app.get('/scan-disk', async (req, res, next) => {
       }
     }
   })
-  await Promise.all(needAlter.map(async (i) => {
+  for (const i of needAlter) {
     const image = path.join(__dirname, 'uploads', i)
     const id = shortid.generate()
     const nameList = i.split('.')
@@ -311,7 +282,7 @@ app.get('/scan-disk', async (req, res, next) => {
       fileName,
       createdAt: moment().valueOf(),
     })
-  }))
+  }
   _.forEach(needInsert, async (i) => {
     await axios.post('http://127.0.0.1:9072/images/', i)
   })
