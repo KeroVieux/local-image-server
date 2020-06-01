@@ -50,7 +50,7 @@ app.post('/upload-single', upload.single('image'), async (req, res, next) =>{
       fileName: req.file.filename,
     })
   }
-  return res.json(false)
+  return res.send(false)
 })
 
 /**
@@ -74,14 +74,14 @@ app.post('/upload-multi', async (req, res, next) => {
           createdAt: moment().valueOf(),
         })
       })
-      return res.json(_.map(req.files, (i) => {
+      return res.send(_.map(req.files, (i) => {
         return {
           id: i.filename.split('.')[0],
           fileName: `${id}.png`,
         }
       }))
     }
-    return res.json(false)
+    return res.send(false)
   });
 })
 
@@ -114,9 +114,9 @@ app.post('/upload-base64', async (req, res, next) => {
         createdAt: moment().valueOf(),
       })
     })
-    return res.json(data)
+    return res.send(data)
   }
-  return res.json(false)
+  return res.send(false)
 })
 
 /**
@@ -151,7 +151,7 @@ app.post('/upload-url', async (req, res, next) => {
       createdAt: moment().valueOf(),
     })
   }
-  res.json(inserted)
+  res.send(inserted)
 })
 
 /**
