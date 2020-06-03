@@ -68,14 +68,14 @@ app.post('/upload-multi', async (req, res, next) => {
     if (req.files && !err) {
       const inserted = []
       for (const i of req.files) {
-        const playload = {
+        const payload = {
           id: i.filename.split('.')[0],
           ext: i.filename.split('.')[1],
           fileName: i.filename,
           createdAt: moment().valueOf(),
         }
-        axios.post('http://127.0.0.1:9072/images', playload)
-        inserted.push(playload)
+        axios.post('http://127.0.0.1:9072/images', payload)
+        inserted.push(payload)
       }
       return res.send(inserted)
     }
