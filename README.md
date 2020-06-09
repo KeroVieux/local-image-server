@@ -13,7 +13,7 @@
 `yarn start`
 
 3. finally
-two server have started, one is image server, the other one is data server.(default port is 9071 and 9072)
+two server have started, one is the image server, the other one is the data server.(default port is 9071 and 9072)
 
 ## demo
 [image list demo](http://hidoge.cn:9072/)
@@ -208,5 +208,3 @@ return an array that images inserted
 1. search images in a disk and generate the specific info in the database
 2. build an app for users like chevereto, it should have albums /pagination / tags / full-text search /multiple users
 
-
-apidoc -e node_modules/ -e doc/ -c ./apidoc.json -i ./ -o doc/
