@@ -104,6 +104,54 @@
     ]
   },
   {
+    "type": "delete",
+    "url": "/single-delete/:id",
+    "title": "single image delete",
+    "group": "图片",
+    "name": "单张图片删除",
+    "description": "<p>从文件夹中和数据库中删除图片</p>",
+    "examples": [
+      {
+        "title": "curl 请求",
+        "content": "curl -X DELETE xx.com/single-delete/imageId",
+        "type": "curl"
+      }
+    ],
+    "error": {
+      "fields": {
+        "500 Internal Server Error": [
+          {
+            "group": "500 Internal Server Error",
+            "optional": false,
+            "field": "InternalServerError",
+            "description": "<p>The server encountered an internal error.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Boolean",
+            "optional": false,
+            "field": "data",
+            "description": "<p>result</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./index.js",
+    "groupTitle": "图片",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:9071/single-delete/:id"
+      }
+    ]
+  },
+  {
     "type": "get",
     "url": "/scan-disk",
     "title": "扫描硬盘",

@@ -238,6 +238,24 @@ app.get('/resize/:id', async (req, res, next) => {
 })
 
 /**
+ * @api {delete} /single-delete/:id single image delete
+ * @apiGroup 图片
+ * @apiName 单张图片删除
+ * @apiDescription 从文件夹中和数据库中删除图片
+ * @apiExample {curl} curl 请求
+ * curl -X DELETE xx.com/single-delete/imageId
+ * @apiError (500 Internal Server Error) InternalServerError The server encountered an internal error.
+ * @apiSuccess { Boolean } data result
+ */
+app.delete('/single-delete/:id', async (req, res, next) => {
+  const { id } = req.params
+  const { data } = await axios.get(`http://127.0.0.1:9072/images/${id}`)
+  await axios.delete(`http://127.0.0.1:9072/images/${id}`)
+  fs.unlinkSync(`./uploads/${data.fileName}`)
+  res.send(true)
+})
+
+/**
  * @api {get} /scan-disk 扫描硬盘
  * @apiGroup 图片处理
  * @apiName 扫描硬盘
