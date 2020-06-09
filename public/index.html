@@ -44,7 +44,7 @@
     <script src="js/jquery.blueimp-gallery.js"></script>
     <script>
       $(async () => {
-        const imgList = await axios.get('http://hidoge.cn:9072/images?_sort=createdAt&_order=desc')
+        const imgList = await axios.get('http://localhost:9072/images?_sort=createdAt&_order=desc')
         const ids = _.map(imgList.data, (i) => {
           return i.id
         })
@@ -52,22 +52,22 @@
         _.forEach(ids, (i) => {
           filter += `id=${i}&`
         })
-        const { data } = await axios.post('http://hidoge.cn:9071/thumbs', { filter })
+        const { data } = await axios.post('http://localhost:9071/thumbs', { filter })
         const linksContainer = $('#links')
         _.forEach(data, (i) => {
           $('<a/>')
               .append($('<img>').prop('src', i.base64))
-              .prop('href', `http://hidoge.cn:9071/image/${i.fileName}`)
+              .prop('href', `http://localhost:9071/image/${i.fileName}`)
               .prop('title', i.id)
               .attr('data-gallery', '')
               .appendTo(linksContainer)
         })
         $('#sharp').click(async () => {
-          const { data } = await axios.get('http://hidoge.cn:9071/sharp/qREq8c4MGe?w=100&h=200&format=jpg')
+          const { data } = await axios.get('http://localhost:9071/resize/5bPYrxWCZ?w=100&h=200&format=jpg')
           $('#img').attr('src', data)
         })
         $('#base64Get').click(async () => {
-          const { data } = await axios.get('http://hidoge.cn:9071/image/qREq8c4MGe.png?base64=1')
+          const { data } = await axios.get('http://localhost:9071/image/5bPYrxWCZ.png?base64=1')
           $('#img').attr('src', data)
         })
       })
