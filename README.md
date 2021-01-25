@@ -29,6 +29,8 @@ $ pm2 start yarn --interpreter bash --name local-image-server -- start
 
 ## what here provided
 
+all api you can see, [api list](http://hidoge.cn:9072/doc)
+
 ### upload single image from form
 
 1. the name of file input must be 'image'  
@@ -186,6 +188,27 @@ curl -X GET \
 
 return base64 string  
 
+### get specific size base64  
+
+```
+curl -X GET \
+  -H "Content-Type: application/json" \
+  http://localhost:9072/sharp/:id?w=100&h=100&format=png
+```
+
+return base64 string  
+
+
+### scan your dir and add images which are not exist in database  
+
+```
+curl -X GET \
+  -H "Content-Type: application/json" \
+  http://localhost:9072/scan-disk
+```
+
+return an array that images inserted  
+
 ## why not chevereto
 1. the only api for upload used get method, so you cannot upload some image within large size
 2. cannot get image with the specific size and format
@@ -194,3 +217,6 @@ return base64 string
 ## todo
 1. search images in a disk and generate the specific info in the database
 2. build an app for users like chevereto, it should have albums /pagination / tags / full-text search /multiple users
+
+
+apidoc -e node_modules/ -e doc/ -c ./apidoc.json -i ./ -o doc/

@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "rm": "rimraf public/doc/",
+    "doc": "apidoc -c ./apidoc.json -e node_modules/ -i ./ -o public/doc/",
     "deploy": "node deploy.js d local-image-server",
     "start": "node index.js & node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -24,5 +26,8 @@
     "sharp": "^0.25.3",
     "shelljs": "^0.8.4",
     "shortid": "^2.2.15"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.2"
   }
 }
