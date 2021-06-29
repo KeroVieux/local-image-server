@@ -1,9 +1,9 @@
 'use strict'
+
 const sharp = require('sharp')
+const nanoid = require('nanoid').nanoid
 const fs = require('fs')
 const multer = require('fastify-multer')
-const nanoid = require('nanoid').nanoid
-
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -33,7 +33,7 @@ module.exports = async function (fastify, opts) {
   })
 
   fastify.get('/:id', async function (request, reply) {
-    const { base64, w, h } = request.query
+    const { w, h } = request.query
     const { id } = request.params
     const imgPath = `${process.cwd()}/uploads/${id}.png`
     const isExist = fs.existsSync(imgPath)
@@ -42,11 +42,7 @@ module.exports = async function (fastify, opts) {
       const sharpRes = await sharp(image)
           .resize(w ? parseInt(w, 10) : null, h ? parseInt(h, 10) : null, { fit: 'contain', background: {r:0,g:0,b:0,alpha:0} })
           .toBuffer()
-      let base64Res = null
-      if (base64) {
-        base64Res = `data:png;base64,${sharpRes.toString('base64')}`
-      }
-      return reply.send(base64 ? base64Res : sharpRes)
+      return reply.send(`data:png;base64,${sharpRes.toString('base64')}`)
     }
     return reply.send('No such file')
   })
