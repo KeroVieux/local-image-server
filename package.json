@@ -29,7 +29,7 @@
     "fastify-plugin": "^3.0.0",
     "fastify-sensible": "^3.1.0",
     "lodash": "^4.17.21",
-    "nanoid": "^3.1.23",
+    "nanoid": "^3.1.31",
     "sharp": "^0.28.3"
   },
   "devDependencies": {
